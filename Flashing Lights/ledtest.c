@@ -5,13 +5,12 @@ int main(void)
 	
 	int led=0;
 	int led_1=0;
-	bool do_loop = true;
 	int toggle = 0;
 	int pos = 0;
 
 	InitPort();
 
-	while(do_loop)
+	while(1)
 	{
 		loopInDirection(pos);
 		pos = pos^1;
