@@ -1,56 +1,11 @@
-#include "init_port.h"
+#include "e_epuck_ports.h"
+#include "common.h"
 
-int main(void)
-{
-	
-	int led=0;
-	int led_1=0;
-	int toggle = 0;
-	int pos = 0;
-
-	InitPort();
-
-	while(1)
-	{
-		loopInDirection(pos);
-		pos = pos^1;
-	}
-}
-
-// 0 = for, 1 = back
-void loopInDirection(int dir) {
-	int i;
-	if(dir) {
-		for(i = 7; i >= 0; i--) {
-			flash(i);
-		}
-	} else {
-		for(i = 0; i <= 8; i++) {
-			flash(i);
-		}
-	}
-
-}
-
-void flash(int pos) {
-	if(pos == 8) {
-		pos = 0;
-	}
-	set(pos,1);
-	delay(0.1);
-	set(pos,0);
-}
-
-void delay(double seconds) {
-	long i;
-	double maf = SECOND * seconds;
-	long delay = (double)maf;
-	for(i=0;i < delay;i++) {
-		asm("nop");
-	}
-}
-
-
+/**
+ * Set a light to be on (1) or off (0)
+ * @param index
+ * @param val
+ */
 void set(int index, int val) {
 	switch(index) {
 		case 0:
@@ -79,3 +34,71 @@ void set(int index, int val) {
 		break;
 	}
 }
+
+/**
+ * Flash a light on and off
+ * @param pos
+ */
+void flash(int pos) {
+	if(pos == 8) {
+		pos = 0;
+	}
+	set(pos,1);
+	delay(0.1);
+	set(pos,0);
+}
+
+/**
+ * Flash all of the lights in sequence
+ * @param dir
+ */
+void loopInDirection(int dir) {
+	int i;
+	if(dir) {
+		for(i = 7; i >= 0; i--) {
+			flash(i);
+		}
+	} else {
+		for(i = 0; i <= 8; i++) {
+			flash(i);
+		}
+	}
+}
+
+/**
+ * Turn all of the lights on
+ */
+void lightAllOn() {
+    int i;
+    for(i = 0; i <= 7; i++) {
+        set(i,1);
+    }
+}
+
+/**
+ * Turn all of the lights off
+ */
+void lightAllOff() {
+    int i;
+    for(i = 0; i <= 7; i++) {
+        set(i,0);
+    }
+}
+
+/**
+ * Perform the lights startup sequence
+ */
+void lightStartUp() {
+    loopInDirection(0);
+    int i;
+    int x;
+    for(x = 0; x <=1; x++){
+        lightAllOn();
+        delay(0.4);
+        lightAllOff();
+        delay(0.4);
+    }
+}
+
+
+

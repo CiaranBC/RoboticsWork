@@ -57,8 +57,9 @@ EPFL Ecole polytechnique federale de Lausanne http://www.epfl.ch
  */
 
 #include "e_ad_conv.h"
-#include "./../motor_led/e_epuck_ports.h"
+#include "e_epuck_ports.h"
 #include "e_prox.h"
+#include <stdio.h>
 
 /* internal variables for prox */
 static int ambient_ir[8];				 // ambient light measurement
@@ -245,3 +246,31 @@ int e_get_ambient_light(unsigned int sensor_number)
 	else
 		return ambient_ir[sensor_number];
 }
+
+/**
+ * Check if the sensor detects something within n centimetres
+ * @param sensor
+ * @param cents
+ * @return 
+ */
+ int inRange(int sensor, int cents) {
+     int value = e_get_prox(sensor);
+     double tol = 750 / cents;
+     int tolerance = (double)tol;
+     return value > tolerance;
+}
+ 
+/**
+ * Check if the sensors are active
+ * @return 
+ */
+ int * proxActiveSensors(void) {
+     static int active[8];
+     int i;
+     for(i = 0; i < 8; i++) {
+         active[i] = inRange(i,1);
+     }
+     return active;
+ }
+
+ 

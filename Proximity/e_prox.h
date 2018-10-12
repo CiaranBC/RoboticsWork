@@ -59,6 +59,7 @@ EPFL Ecole polytechnique federale de Lausanne http://www.epfl.ch
 #ifndef _PROX
 #define _PROX
 
+#define CENTIMETRE 750
 
 /* functions */
 
@@ -66,6 +67,6 @@ void e_init_prox(void);   // to be called before starting using prox
 void e_stop_prox(void); //Stop the timer and put pusle to 0
 int e_get_prox(unsigned int sensor_number); // to get a prox value
 int e_get_ambient_light(unsigned int sensor_number); // to get ambient light value
-
-
+int inRange(int sensor, int cents);
+int* proxActiveSensors(void);
 #endif
