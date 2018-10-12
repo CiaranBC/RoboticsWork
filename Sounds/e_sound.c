@@ -36,7 +36,7 @@ void e_init_sound(void)  // init sound module using si3000 codec
 	AUDIO_ON = 1;
 	for (i=0;i<10000;i++);
 	e_init_dci_master();
-	e_init_codec_slave();	
+	e_init_codec_slave();
 }
 
 /*! \brief Play a sound

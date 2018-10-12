@@ -90,9 +90,8 @@ void lightAllOff() {
  */
 void lightStartUp() {
     loopInDirection(0);
-    int i;
     int x;
-    for(x = 0; x <=1; x++){
+    for(x = 0; x <= 1; x++) {
         lightAllOn();
         delay(0.4);
         lightAllOff();
