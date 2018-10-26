@@ -1,0 +1,37 @@
+#include "p30f6014A.h"
+#include "e_epuck_ports.h"
+#include "e_init_port.h"
+#include "e_ad_conv.h"
+#include "e_prox.h"
+#include "e_motors.h"
+
+#define DELAY 50000
+
+int main() {
+
+	long timer = 0;
+	//system initialization 
+	e_init_port();    			// configure port pins
+	e_init_ad_scan(ALL_ADC);	// configure Analog-to-Digital Converter Module
+
+	while (1) {
+
+		if (e_get_prox(0)>100) {		//turn right if object is closer to the left
+			if (e_get_prox(0)>e_get_prox(7)){
+			e_set_speed_left(-500);
+			e_set_speed_right(500);
+
+		}
+			else if (e_get_prox(0)<e_get_prox(7)) {		//turn left if object is closer to the right
+			e_set_speed_left(500);
+			e_set_speed_right(-500);
+		}  
+		}	else {						//drive
+			e_set_speed_left(100);
+			e_set_speed_right(100);
+		}
+	}
+		//wait a little to let the robot move
+		for(timer = 0; timer < DELAY; timer++);
+
+	}
